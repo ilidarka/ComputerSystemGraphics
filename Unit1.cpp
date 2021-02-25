@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <math.h>
 #pragma hdrstop
 
 #include "Unit1.h"
@@ -10,7 +11,7 @@
 TForm1 *Form1;
 
 //ƒлина стороны
-int a = 20;
+int a = 50;
 //угол поворота фигуры
 float alfa = 0;
 //скорость поворота угла
@@ -20,6 +21,12 @@ int speed = 100;
 // оординаты центра фигуры
 int x;
 int y;
+//ћассив координат внешнего квадрата
+TPoint outerRectangle[4];
+//ћассив координат внутреннего квадрата
+TPoint innerRectangle[4];
+//ћассив координат внутренней фигуры
+TPoint innerFigure[12];
 
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -57,36 +64,52 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
 	Timer1->Interval = speed;
 	Image1->Canvas->FillRect(Canvas->ClipRect);
-	//AB
-	Image1->Canvas->MoveTo(x + ((x - (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
-						   y + ((x - (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
-	Image1->Canvas->LineTo(x + ((x - (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
-						   y + ((x - (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
-	//BC
-	Image1->Canvas->MoveTo(x + ((x - (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
-						   y + ((x - (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
-	Image1->Canvas->LineTo(x + ((x + (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
-						   y + ((x + (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
-	//CD
-	Image1->Canvas->MoveTo(x + ((x + (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
-						   y + ((x + (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
-	Image1->Canvas->LineTo(x + ((x + (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
-						   y + ((x + (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
-	//DA
-	Image1->Canvas->MoveTo(x + ((x + (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
-						   y + ((x + (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
-	Image1->Canvas->LineTo(x + ((x - (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
-						   y + ((x - (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
-	//MN
-	Image1->Canvas->MoveTo(x + ((x - (a / 2)) - x) * cos(alfa) - sin(alfa),
+
+	outerRectangle[0] = Point(x + ((x - (a / Sqrt(2))) - x) * cos(alfa) - sin(alfa),
+							  y + ((x - (a / Sqrt(2))) - x) * sin(alfa) + cos(alfa));
+	outerRectangle[1] = Point(x + cos(alfa) - ((y - (a / Sqrt(2))) - y) * sin(alfa),
+							  y + sin(alfa) + ((y - (a / Sqrt(2))) - y) * cos(alfa));
+	outerRectangle[2] = Point(x + ((x + (a / Sqrt(2))) - x) * cos(alfa) - sin(alfa),
+							  y + ((x + (a / Sqrt(2))) - x) * sin(alfa) + cos(alfa));
+	outerRectangle[3] = Point(x + cos(alfa) - ((y + (a / Sqrt(2))) - y) * sin(alfa),
+							  y + sin(alfa) + ((y + (a / Sqrt(2))) - y) * cos(alfa));
+	Image1->Canvas->Polygon(outerRectangle, 3);
+
+	innerRectangle[0] = Point(x + ((x - (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
+							  y + ((x - (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
+	innerRectangle[1] = Point(x + ((x - (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
+							  y + ((x - (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
+	innerRectangle[2] = Point(x + ((x + (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
+						      y + ((x + (a / 2)) - x) * sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
+	innerRectangle[3] = Point(x + ((x + (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
+						      y + ((x + (a / 2)) - x) * sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
+	Image1->Canvas->Polygon(innerRectangle, 3);
+
+	innerFigure[0] = Point(x + ((x - (a / 2)) - x) * cos(alfa) - sin(alfa),
 						   y + ((x - (a / 2)) - x) * sin(alfa) + cos(alfa));
-	Image1->Canvas->LineTo(x + ((x + (a / 2)) - x) * cos(alfa) - sin(alfa),
-						   y + ((x + (a / 2)) - x) * sin(alfa) + cos(alfa));
-	//PT
-	Image1->Canvas->MoveTo(x + cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
+	innerFigure[1] = Point(x + ((x - ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y - ((Sqrt(2) * a) - a)) - y) * sin(alfa),
+						   y + ((x - ((Sqrt(2) * a) - a)) - x) * sin(alfa) + ((y - ((Sqrt(2) * a) - a)) - y) * cos(alfa));
+	innerFigure[2] = Point(x, y);
+
+	innerFigure[3] = Point(x + cos(alfa) - ((y - (a / 2)) - y) * sin(alfa),
 						   y + sin(alfa) + ((y - (a / 2)) - y) * cos(alfa));
-	Image1->Canvas->LineTo(x + cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
+	innerFigure[4] = Point(x + ((x + ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y - ((Sqrt(2) * a) - a)) - y) * sin(alfa),
+						   y + ((x + ((Sqrt(2) * a) - a)) - x) * sin(alfa) + ((y - ((Sqrt(2) * a) - a)) - y) * cos(alfa));
+	innerFigure[5] = Point(x, y);
+
+	innerFigure[6] = Point(x + ((x + (a / 2)) - x) * cos(alfa) - sin(alfa),
+						   y + ((x + (a / 2)) - x) * sin(alfa) + cos(alfa));
+	innerFigure[7] = Point(x + ((x + ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y + ((Sqrt(2) * a) - a)) - y) * sin(alfa),
+						   y + ((x + ((Sqrt(2) * a) - a)) - x) * sin(alfa) + ((y + ((Sqrt(2) * a) - a)) - y) * cos(alfa));
+	innerFigure[8] = Point(x, y);
+
+	innerFigure[9] = Point(x + cos(alfa) - ((y + (a / 2)) - y) * sin(alfa),
 						   y + sin(alfa) + ((y + (a / 2)) - y) * cos(alfa));
+	innerFigure[10] = Point(x + ((x - ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y + ((Sqrt(2) * a) - a)) - y) * sin(alfa),
+							y + ((x - ((Sqrt(2) * a) - a)) - x) * sin(alfa) + ((y + ((Sqrt(2) * a) - a)) - y) * cos(alfa));
+	innerFigure[11] = Point(x, y);
+	Image1->Canvas->Polygon(innerFigure, 11);
+
 	alfa += alfaSpeed;
 }
 //---------------------------------------------------------------------------
