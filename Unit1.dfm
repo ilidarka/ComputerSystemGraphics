@@ -44,16 +44,16 @@ object Form1: TForm1
       object Label2: TLabel
         Left = 3
         Top = 112
-        Width = 115
-        Height = 28
+        Width = 106
+        Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1089#1090#1080' '#1087#1077#1088#1077#1076#1074#1080#1078#1077#1085#1080#1103
         WordWrap = True
       end
       object Label3: TLabel
         Left = 3
         Top = 216
-        Width = 123
-        Height = 39
+        Width = 112
+        Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1088#1089#1090#1080' '#1074#1088#1072#1097#1077#1085#1080#1103
         WordWrap = True
       end
@@ -106,6 +106,15 @@ object Form1: TForm1
         OnClick = Button3Click
       end
     end
+  end
+  object Button4: TButton
+    Left = 704
+    Top = 400
+    Width = 75
+    Height = 25
+    Caption = 'Button4'
+    TabOrder = 1
+    OnClick = Button4Click
   end
   object Timer1: TTimer
     Enabled = False
