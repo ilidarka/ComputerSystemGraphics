@@ -25,7 +25,6 @@ __published:	// IDE-managed Components
 	TLabel *Label3;
 	TEdit *Edit3;
 	TButton *Button3;
-	TButton *Button4;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall Image1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
@@ -33,7 +32,6 @@ __published:	// IDE-managed Components
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Button3Click(TObject *Sender);
-	void __fastcall Button4Click(TObject *Sender);
 
 
 private:	// User declarations

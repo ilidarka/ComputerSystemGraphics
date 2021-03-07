@@ -19,9 +19,9 @@ float alfaSpeed = 0.01;
 //Скорость перемещения
 int speed = 1;
 //Скорость перемещения по х
-int vx = 0;
+int vx = 1;
 //Скорость перемещения по у
-int vy = 0;
+int vy = 1;
 //Координаты центра фигуры
 int x;
 int y;
@@ -53,34 +53,42 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 void __fastcall TForm1::Image1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y)
 {
-	vx = 0;
-    vy = 0;
-    alfa = 0;
+	alfa = 0;
+	vx = 1;
+    vy = 1;
 	x = X;
 	y = Y;
 	Timer1->Enabled = true;
+	Timer2->Enabled = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
+    Edit1->Text = a;
+	Edit2->Text = speed;
+	Edit3->Text = 0.01;
 	Image1->Canvas->FillRect(Canvas->ClipRect);
 	Timer1->Enabled = false;
-	Timer1->Interval = speed;
+	Timer2->Enabled = false;
+	Timer1->Interval = 1;
+	Timer2->Interval = 1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
-	Timer1->Interval = speed;
 	Image1->Canvas->FillRect(Canvas->ClipRect);
 
-	outerRectangle[0] = Point((x + ((x - (a / Sqrt(2))) - x) * cos(alfa) - (k * sin(alfa))) + vx,
-							  (y + k * (((x - (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)) + vy);
-	outerRectangle[1] = Point((x + cos(alfa) - k * (((y - (a / Sqrt(2))) - y) * sin(alfa))) + vx,
-							  (y + (k * sin(alfa)) + ((y - (a / Sqrt(2))) - y) * cos(alfa)) + vy);
-	outerRectangle[2] = Point((x + ((x + (a / Sqrt(2))) - x) * cos(alfa) - (k * sin(alfa))) + vx,
-							  (y + k * (((x + (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)) + vy);
-	outerRectangle[3] = Point((x + cos(alfa) - k * (((y + (a / Sqrt(2))) - y) * sin(alfa))) + vx,
-							  (y + (k * sin(alfa)) + ((y + (a / Sqrt(2))) - y) * cos(alfa)) + vy);
+	x += (vx * speed);
+	y += (vy * speed);
+
+	outerRectangle[0] = Point((x + ((x - (a / Sqrt(2))) - x) * cos(alfa) - (k * sin(alfa))),
+							  (y + k * (((x - (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)));
+	outerRectangle[1] = Point((x + cos(alfa) - k * (((y - (a / Sqrt(2))) - y) * sin(alfa))),
+							  (y + (k * sin(alfa)) + ((y - (a / Sqrt(2))) - y) * cos(alfa)));
+	outerRectangle[2] = Point((x + ((x + (a / Sqrt(2))) - x) * cos(alfa) - (k * sin(alfa))),
+							  (y + k * (((x + (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)));
+	outerRectangle[3] = Point((x + cos(alfa) - k * (((y + (a / Sqrt(2))) - y) * sin(alfa))),
+							  (y + (k * sin(alfa)) + ((y + (a / Sqrt(2))) - y) * cos(alfa)));
 	Image1->Canvas->Polygon(outerRectangle, 3);
 
 	innerRectangle[0] = Point((x + ((x - (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * (k * sin(alfa))) + vx,
@@ -118,6 +126,13 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 	innerFigure[11] = Point(x + vx, y + vy);
 	Image1->Canvas->Polygon(innerFigure, 11);
 
+	if(((x + (a / 1.5)) >= Image1->Width) || ((x - (a / 1.5)) <= 0)) {
+		vx *= -1;
+		k *= -1;
+	} else if(((y + (a / 1.5)) >= Image1->Height) || ((y - (a / 1.5)) <= 0)) {
+		vy *= -1;
+        k *= -1;
+	}
 	alfa += alfaSpeed;
 }
 //---------------------------------------------------------------------------
@@ -126,10 +141,3 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
     alfaSpeed = StrToFloat(Edit3->Text);
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::Button4Click(TObject *Sender)
-{
-    k *= -1;
-}
-//---------------------------------------------------------------------------
-

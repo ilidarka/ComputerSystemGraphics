@@ -107,15 +107,6 @@ object Form1: TForm1
       end
     end
   end
-  object Button4: TButton
-    Left = 704
-    Top = 400
-    Width = 75
-    Height = 25
-    Caption = 'Button4'
-    TabOrder = 1
-    OnClick = Button4Click
-  end
   object Timer1: TTimer
     Enabled = False
     Interval = 500
