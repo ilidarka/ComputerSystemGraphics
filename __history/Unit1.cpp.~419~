@@ -71,8 +71,11 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
 	Timer1->Interval = speed;
-	if((x + (a / Sqrt(2)) >= Image1->Width)) {
+	if((x + (a / Sqrt(2)) >= 640)) {
 		vx -= speed;
+		vy += speed;
+	} else {
+		vx += speed;
 		vy += speed;
 	}
 	Image1->Canvas->FillRect(Canvas->ClipRect);
