@@ -10,28 +10,28 @@
 #pragma resource "*.dfm"
 TForm1 *Form1;
 
-//Длина стороны
+//side length
 int a = 50;
-//угол поворота фигуры
+//shape rotation angle
 float alfa = 0;
-//скорость поворота угла
+//rotation speed
 float alfaSpeed = 0.01;
-//Скорость перемещения
+//movement speed
 int speed = 1;
-//Скорость перемещения по х
+//speed of movement along the x coordinate
 int vx = 1;
-//Скорость перемещения по у
+//speed of movement along the y coordinate
 int vy = 1;
-//Координаты центра фигуры
+//coordinates of center
 int x;
 int y;
-//Массив координат внешнего квадрата
+//coordinates array of outer square
 TPoint outerRectangle[4];
-//Массив координат внутреннего квадрата
+//coordinates array of inner square
 TPoint innerRectangle[4];
-//Массив координат внутренней фигуры
+//coordinates array of inner figure
 TPoint innerFigure[12];
-//Коэффициент для изменения направления движения
+//coefficient of changing movement direction
 int k = 1;
 
 //---------------------------------------------------------------------------
@@ -59,19 +59,16 @@ void __fastcall TForm1::Image1MouseUp(TObject *Sender, TMouseButton Button, TShi
 	x = X;
 	y = Y;
 	Timer1->Enabled = true;
-	Timer2->Enabled = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-    Edit1->Text = a;
+	Edit1->Text = a;
 	Edit2->Text = speed;
 	Edit3->Text = 0.01;
 	Image1->Canvas->FillRect(Canvas->ClipRect);
 	Timer1->Enabled = false;
-	Timer2->Enabled = false;
 	Timer1->Interval = 1;
-	Timer2->Interval = 1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
