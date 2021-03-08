@@ -2,6 +2,7 @@
 
 #include <vcl.h>
 #include <math.h>
+#include <System.RegularExpressions.hpp>
 #pragma hdrstop
 
 #include "Unit1.h"
@@ -49,12 +50,20 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-    a = StrToInt(Edit1->Text);
+	if(TRegEx::IsMatch(Edit1->Text, "[0-9]+")) {
+		a = StrToInt(Edit1->Text);
+	} else {
+		ShowMessage("¬водите только целые числа");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
-    speed = StrToInt(Edit2->Text);
+	if(TRegEx::IsMatch(Edit2->Text, "[0-9]+")) {
+		speed = StrToInt(Edit2->Text);
+	} else {
+		ShowMessage("¬водите только целые числа");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
@@ -148,7 +157,11 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button3Click(TObject *Sender)
 {
-    alfaSpeed = StrToFloat(Edit3->Text);
+	if(TRegEx::IsMatch(Edit3->Text, "[0-9]+\\,[0-9]+")) {
+		alfaSpeed = StrToFloat(Edit3->Text);
+	} else {
+        ShowMessage("¬водите число использу€ ','");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
@@ -184,4 +197,8 @@ void __fastcall TForm1::Button4Click(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
-
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+    a = 50;
+}
+//---------------------------------------------------------------------------

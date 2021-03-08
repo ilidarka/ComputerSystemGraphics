@@ -2,6 +2,7 @@
 
 #include <vcl.h>
 #include <math.h>
+#include <System.RegularExpressions.hpp>
 #pragma hdrstop
 
 #include "Unit1.h"
@@ -49,7 +50,11 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-    a = StrToInt(Edit1->Text);
+	if(isdigit(StrToInt(Edit1->Text))) {
+		a = StrToInt(Edit1->Text);
+	} else {
+        ShowMessage("¬водите только целые цифры");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button2Click(TObject *Sender)
@@ -68,8 +73,8 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
-	if((R != 0 && G != 0 && B != 255 && R1 != 255 && B1 != 0) ||
-		(R != 255 && G != 255 && B != 0 && R1 != 0 && B1 != 255)) {
+	if((R != 0 && G != 0 && B != 255 && R1 != 255 && B1 != 0 && k == 1) ||
+		(R != 255 && G != 255 && B != 0 && R1 != 0 && B1 != 255 && k == -1)) {
 		R -= k;
 		G -= k;
 		B += k;
@@ -78,8 +83,8 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 		B1 -= k;
 	}
 
-	Panel1->DoubleBuffered=true;
-	PaintBox1->Canvas->Brush->Color=clWhite;
+	Panel1->DoubleBuffered = true;
+	PaintBox1->Canvas->Brush->Color = clWhite;
 	PaintBox1->Canvas->Rectangle(0, 0, PaintBox1->Width, PaintBox1->Height);
 
 	x += (vx * speed);
@@ -148,12 +153,17 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button3Click(TObject *Sender)
 {
-    alfaSpeed = StrToFloat(Edit3->Text);
+	if(TRegEx::IsMatch(Edit3->Text, "[0-9]+\\,[0-9]+")) {
+		alfaSpeed = StrToFloat(Edit3->Text);
+	} else {
+        ShowMessage("¬водите число использу€ ','");
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
+    k = 1;
 	alfa = 0;
 	vx = 1;
     vy = 1;
@@ -171,3 +181,21 @@ void TForm1::setStandartColor() {
 	G1 = 0,
 	B1 = 255;
 }
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+	if(Timer1->Enabled) {
+		Button4->Caption = "—тарт";
+		Timer1->Enabled = false;
+	} else {
+		Button4->Caption = "ѕауза";
+		Timer1->Enabled = true;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button5Click(TObject *Sender)
+{
+    a = 50;
+}
+//---------------------------------------------------------------------------
+

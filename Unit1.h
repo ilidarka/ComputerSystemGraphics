@@ -27,6 +27,7 @@ __published:	// IDE-managed Components
 	TPaintBox *PaintBox1;
 	TPanel *Panel2;
 	TButton *Button4;
+	TButton *Button5;
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
@@ -35,6 +36,7 @@ __published:	// IDE-managed Components
 	void __fastcall PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall Button4Click(TObject *Sender);
+	void __fastcall Button5Click(TObject *Sender);
 
 
 private:	// User declarations

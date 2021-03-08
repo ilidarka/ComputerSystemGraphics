@@ -18,13 +18,13 @@ object Form1: TForm1
     Left = 654
     Top = 8
     Width = 145
-    Height = 369
+    Height = 385
     TabOrder = 0
     object GroupBox1: TGroupBox
       Left = 8
       Top = 0
       Width = 129
-      Height = 361
+      Height = 377
       Caption = #1059#1087#1088#1072#1074#1083#1077#1085#1080#1077
       TabOrder = 0
       object Label1: TLabel
@@ -36,7 +36,7 @@ object Form1: TForm1
       end
       object Label2: TLabel
         Left = 3
-        Top = 112
+        Top = 136
         Width = 106
         Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1089#1090#1080' '#1087#1077#1088#1077#1076#1074#1080#1078#1077#1085#1080#1103
@@ -44,7 +44,7 @@ object Form1: TForm1
       end
       object Label3: TLabel
         Left = 3
-        Top = 216
+        Top = 240
         Width = 112
         Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1088#1089#1090#1080' '#1074#1088#1072#1097#1077#1085#1080#1103
@@ -68,7 +68,7 @@ object Form1: TForm1
       end
       object Button2: TButton
         Left = 3
-        Top = 173
+        Top = 197
         Width = 123
         Height = 25
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
@@ -77,21 +77,21 @@ object Form1: TForm1
       end
       object Edit2: TEdit
         Left = 3
-        Top = 146
+        Top = 170
         Width = 121
         Height = 21
         TabOrder = 3
       end
       object Edit3: TEdit
         Left = 3
-        Top = 248
+        Top = 272
         Width = 121
         Height = 21
         TabOrder = 4
       end
       object Button3: TButton
         Left = 3
-        Top = 275
+        Top = 299
         Width = 123
         Height = 25
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
@@ -100,12 +100,21 @@ object Form1: TForm1
       end
       object Button4: TButton
         Left = 3
-        Top = 320
+        Top = 344
         Width = 123
         Height = 25
         Caption = #1055#1072#1091#1079#1072
         TabOrder = 6
         OnClick = Button4Click
+      end
+      object Button5: TButton
+        Left = 3
+        Top = 98
+        Width = 123
+        Height = 25
+        Caption = #1050' '#1080#1089#1093#1086#1076#1085#1086#1084#1091' '#1088#1072#1079#1084#1077#1088#1091
+        TabOrder = 7
+        OnClick = Button5Click
       end
     end
   end
