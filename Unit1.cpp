@@ -25,15 +25,22 @@ int vy = 1;
 //coordinates of center
 int x;
 int y;
-//coordinates array of outer square
+//coordinates array of outer rectangle
 TPoint outerRectangle[4];
-//coordinates array of inner square
+//coordinates array of inner rectangle
 TPoint innerRectangle[4];
 //coordinates array of inner figure
 TPoint innerFigure[12];
 //coefficient of changing movement direction
 int k = 1;
-
+//color of outer rectangle and inner figure
+float R = 255,
+	  G = 255,
+	  B = 0;
+// color of inner rectangle
+float R1 = 0,
+	  G1 = 0,
+	  B1 = 255;
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
@@ -50,34 +57,36 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
     speed = StrToInt(Edit2->Text);
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Image1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y)
-{
-	alfa = 0;
-	vx = 1;
-    vy = 1;
-	x = X;
-	y = Y;
-	Timer1->Enabled = true;
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
 	Edit1->Text = a;
 	Edit2->Text = speed;
 	Edit3->Text = 0.01;
-	Image1->Canvas->FillRect(Canvas->ClipRect);
 	Timer1->Enabled = false;
 	Timer1->Interval = 1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
-	Image1->Canvas->FillRect(Canvas->ClipRect);
+	if((R != 0 && G != 0 && B != 255 && R1 != 255 && B1 != 0 && k == 1) ||
+		(R != 255 && G != 255 && B != 0 && R1 != 0 && B1 != 255 && k == -1)) {
+		R -= k;
+		G -= k;
+		B += k;
+
+		R1 += k;
+		B1 -= k;
+	}
+
+	Panel1->DoubleBuffered = true;
+	PaintBox1->Canvas->Brush->Color = clWhite;
+	PaintBox1->Canvas->Rectangle(0, 0, PaintBox1->Width, PaintBox1->Height);
 
 	x += (vx * speed);
 	y += (vy * speed);
 
+	//outer rectangle
+	PaintBox1->Canvas->Brush->Color = (TColor)RGB(R, G, B);
 	outerRectangle[0] = Point((x + ((x - (a / Sqrt(2))) - x) * cos(alfa) - (k * sin(alfa))),
 							  (y + k * (((x - (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)));
 	outerRectangle[1] = Point((x + cos(alfa) - k * (((y - (a / Sqrt(2))) - y) * sin(alfa))),
@@ -86,8 +95,10 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 							  (y + k * (((x + (a / Sqrt(2))) - x) * sin(alfa)) + cos(alfa)));
 	outerRectangle[3] = Point((x + cos(alfa) - k * (((y + (a / Sqrt(2))) - y) * sin(alfa))),
 							  (y + (k * sin(alfa)) + ((y + (a / Sqrt(2))) - y) * cos(alfa)));
-	Image1->Canvas->Polygon(outerRectangle, 3);
+	PaintBox1->Canvas->Polygon(outerRectangle, 3);
 
+	//inner rectangle
+	PaintBox1->Canvas->Brush->Color = (TColor)RGB(R1, G1, B1);
 	innerRectangle[0] = Point((x + ((x - (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * (k * sin(alfa))) + vx,
 							  (y + ((x - (a / 2)) - x) * (k * sin(alfa)) + ((y + (a / 2)) - y) * cos(alfa)) + vy);
 	innerRectangle[1] = Point((x + ((x - (a / 2)) - x) * cos(alfa) - ((y - (a / 2)) - y) * (k * sin(alfa))) + vx,
@@ -96,8 +107,10 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 							  (y + ((x + (a / 2)) - x) * (k * sin(alfa)) + ((y - (a / 2)) - y) * cos(alfa)) + vy);
 	innerRectangle[3] = Point((x + ((x + (a / 2)) - x) * cos(alfa) - ((y + (a / 2)) - y) * (k * sin(alfa))) + vx,
 							  (y + ((x + (a / 2)) - x) * (k * sin(alfa)) + ((y + (a / 2)) - y) * cos(alfa)) + vy);
-	Image1->Canvas->Polygon(innerRectangle, 3);
+	PaintBox1->Canvas->Polygon(innerRectangle, 3);
 
+	//inner rectangle
+	PaintBox1->Canvas->Brush->Color = (TColor)RGB(R, G, B);
 	innerFigure[0] = Point((x + ((x - (a / 2)) - x) * cos(alfa) - (k * sin(alfa))) + vx,
 						   (y + ((x - (a / 2)) - x) * (k * sin(alfa)) + cos(alfa)) + vy);
 	innerFigure[1] = Point((x + ((x - ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y - ((Sqrt(2) * a) - a)) - y) * (k * sin(alfa))) + vx,
@@ -121,12 +134,12 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
 	innerFigure[10] = Point((x + ((x - ((Sqrt(2) * a) - a)) - x) * cos(alfa) - ((y + ((Sqrt(2) * a) - a)) - y) * (k * sin(alfa))) + vx,
 							(y + ((x - ((Sqrt(2) * a) - a)) - x) * (k * sin(alfa)) + ((y + ((Sqrt(2) * a) - a)) - y) * cos(alfa)) + vy);
 	innerFigure[11] = Point(x + vx, y + vy);
-	Image1->Canvas->Polygon(innerFigure, 11);
+	PaintBox1->Canvas->Polygon(innerFigure, 11);
 
-	if(((x + (a / 1.5)) >= Image1->Width) || ((x - (a / 1.5)) <= 0)) {
+	if(((x + (a / 1.5)) >= PaintBox1->Width) || ((x - (a / 1.5)) <= 0)) {
 		vx *= -1;
 		k *= -1;
-	} else if(((y + (a / 1.5)) >= Image1->Height) || ((y - (a / 1.5)) <= 0)) {
+	} else if(((y + (a / 1.5)) >= PaintBox1->Height) || ((y - (a / 1.5)) <= 0)) {
 		vy *= -1;
         k *= -1;
 	}
@@ -138,3 +151,37 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
     alfaSpeed = StrToFloat(Edit3->Text);
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::PaintBox1MouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y)
+{
+    k = 1;
+	alfa = 0;
+	vx = 1;
+    vy = 1;
+	x = X;
+	y = Y;
+	Timer1->Enabled = true;
+    setStandartColor();
+}
+//---------------------------------------------------------------------------
+void TForm1::setStandartColor() {
+	R = 255,
+	G = 255,
+	B = 0;
+	R1 = 0,
+	G1 = 0,
+	B1 = 255;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button4Click(TObject *Sender)
+{
+	if(Timer1->Enabled) {
+		Button4->Caption = "Старт";
+		Timer1->Enabled = false;
+	} else {
+		Button4->Caption = "Пауза";
+		Timer1->Enabled = true;
+	}
+}
+//---------------------------------------------------------------------------
+

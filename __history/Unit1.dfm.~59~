@@ -14,13 +14,6 @@ object Form1: TForm1
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Image1: TImage
-    Left = 8
-    Top = 8
-    Width = 640
-    Height = 480
-    OnMouseUp = Image1MouseUp
-  end
   object Panel1: TPanel
     Left = 654
     Top = 8
@@ -44,16 +37,16 @@ object Form1: TForm1
       object Label2: TLabel
         Left = 3
         Top = 112
-        Width = 115
-        Height = 28
+        Width = 106
+        Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1089#1090#1080' '#1087#1077#1088#1077#1076#1074#1080#1078#1077#1085#1080#1103
         WordWrap = True
       end
       object Label3: TLabel
         Left = 3
         Top = 216
-        Width = 123
-        Height = 39
+        Width = 112
+        Height = 26
         Caption = #1048#1079#1084#1077#1085#1077#1085#1080#1077' '#1089#1082#1086#1088#1086#1088#1089#1090#1080' '#1074#1088#1072#1097#1077#1085#1080#1103
         WordWrap = True
       end
@@ -103,11 +96,28 @@ object Form1: TForm1
         Height = 25
         Caption = #1048#1079#1084#1077#1085#1080#1090#1100
         TabOrder = 5
+        OnClick = Button3Click
       end
+    end
+  end
+  object Panel2: TPanel
+    Left = 8
+    Top = 8
+    Width = 640
+    Height = 480
+    Caption = 'Panel2'
+    TabOrder = 1
+    object PaintBox1: TPaintBox
+      Left = 0
+      Top = 0
+      Width = 640
+      Height = 480
+      OnMouseUp = PaintBox1MouseUp
     end
   end
   object Timer1: TTimer
     Enabled = False
+    Interval = 500
     OnTimer = Timer1Timer
     Left = 664
     Top = 448

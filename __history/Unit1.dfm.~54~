@@ -14,12 +14,11 @@ object Form1: TForm1
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Image1: TImage
+  object PaintBox1: TPaintBox
     Left = 8
     Top = 8
     Width = 640
     Height = 480
-    OnMouseUp = Image1MouseUp
   end
   object Panel1: TPanel
     Left = 654
@@ -106,15 +105,6 @@ object Form1: TForm1
         OnClick = Button3Click
       end
     end
-  end
-  object Button4: TButton
-    Left = 704
-    Top = 400
-    Width = 75
-    Height = 25
-    Caption = 'Button4'
-    TabOrder = 1
-    OnClick = Button4Click
   end
   object Timer1: TTimer
     Enabled = False
